@@ -149,9 +149,11 @@ const AMMTrade = async () => {
     trades.previousTrade = today.toString();
     const t = trades["count"];
     trades["count"] = t + 1;
+    const walletCount = WALLET_ADDRESS.length;  // Number of wallets
+
 
     // buy after each wallet sells etc
-    const buyTime = t % WALLET_ADDRESS.length+1 == 0;
+    const buyTime = (t % (walletCount * 2)) >= walletCount && (t % (walletCount * 2)) < (walletCount * 2);
 
     // execute appropriate action based on condition
     if (buyTime) result = await buyTokensCreateVolume(1, i);
